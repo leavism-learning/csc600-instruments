@@ -172,6 +172,7 @@ function SongsNav({ state, dispatch }: SideNavProps): JSX.Element {
         </div>
       ))}
     </Section>
+    //ToDo: modify to display artist name instead of song name with button.
   );
 }
 
