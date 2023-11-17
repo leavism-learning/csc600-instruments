@@ -1,64 +1,69 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Tone from 'tone';
 import { Instrument, InstrumentProps } from '../Instruments';
 
 // Define DrumSample type
 type DrumSample = {
-    name: string;
+    midi: string; // A MIDI note like "C1", "D#1", etc.
     url: string;
 };
 
-//  drumkit state and logic
-function useDrumkit(samples: DrumSample[]) {
+// Define your drum samples with corresponding MIDI notes
+const drumSamples: DrumSample[] = [
+    { midi: 'C1', url: 'samples/kick.wav' },
+    { midi: 'C#1', url: 'samples/snare.wav' },
+    { midi: 'D1', url: 'samples/high_hat.wav' },
+    { midi: 'D#1', url: 'samples/floor-tom.wav' },
+    { midi: 'E1', url: 'samples/hi-tom.wav' },
+    { midi: 'E#1', url: 'samples/mid-tom.wav' },
+    { midi: 'F1', url: 'samples/ride.wav' },
+    { midi: 'F#1', url: 'samples/crash.wav' },
+
+];
+
+// Drumkit component
+const Drumkit: React.FC<InstrumentProps> = ({ state, dispatch }) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [drumSampler, setDrumSampler] = useState<Tone.Sampler | null>(null);
 
     // Load drum samples
-    const loadDrumSamples = useCallback(() => {
-        const urls = samples.reduce((acc, sample) => ({ ...acc, [sample.name]: sample.url }), {});
+    useEffect(() => {
+        const urls = drumSamples.reduce((acc, sample) => ({ ...acc, [sample.midi]: sample.url }), {});
         const sampler = new Tone.Sampler({ urls }).toDestination();
-        setDrumSampler(sampler);
-    }, [samples]);
 
-    // Function to toggle play state
-    const togglePlay = useCallback(() => {
-        setIsPlaying(prevState => !prevState);
+        Tone.loaded().then(() => {
+            setDrumSampler(sampler);
+        });
+
+        // Cleanup function to dispose of the sampler
+        return () => {
+            sampler.dispose();
+        };
     }, []);
 
-    // Play a specific drum sample
-    const playSample = useCallback((sampleName: string) => {
+    // Function to toggle play state
+    const togglePlay = () => {
+        setIsPlaying((prevState) => !prevState);
+    };
+
+    // Function to play a specific drum sample
+    const playSample = (midiNote: string) => {
         if (drumSampler) {
-            drumSampler.triggerAttack(sampleName);
+            drumSampler.triggerAttack(midiNote);
         }
-    }, [drumSampler]);
+    };
 
-    return { isPlaying, togglePlay, playSample, loadDrumSamples };
-}
-
-// Drumkit component
-const Drumkit: React.FC<InstrumentProps> = ({ state, dispatch }) => {
-    const drumSamples: DrumSample[] = [
-        { name: 'Kick', url: '/sounds/kick.wav' },
-        { name: 'Snare', url: '/sounds/snare.wav' },
-        // More samples...
-    ];
-
-    const { isPlaying, togglePlay, playSample, loadDrumSamples } = useDrumkit(drumSamples);
-
-    useEffect(() => {
-        loadDrumSamples();
-    }, [loadDrumSamples]);
-
+    // Render buttons for each drum sample
     return (
         <div>
             <button onClick={togglePlay}>{isPlaying ? 'Stop' : 'Start'}</button>
-            {drumSamples.map(sample => (
-                <button key={sample.name} onClick={() => playSample(sample.name)}>
-                    {sample.name}
+            {drumSamples.map((sample) => (
+                <button key={sample.midi} onClick={() => playSample(sample.midi)}>
+                    Play {sample.midi}
                 </button>
             ))}
         </div>
     );
 };
+
 export const DrumkitInstrument: Instrument = new Instrument('Drumkit', Drumkit);
-//export default Drumkit;
