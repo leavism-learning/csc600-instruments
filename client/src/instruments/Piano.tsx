@@ -99,6 +99,8 @@ function PianoType({ title, onClick, active }: any): JSX.Element {
     </div>
   );
 }
+export const PianoInstrument = new Instrument('Piano', Piano);
+
 
 function Piano({ synth, setSynth }: InstrumentProps): JSX.Element {
   const keys = List([
@@ -140,37 +142,35 @@ function Piano({ synth, setSynth }: InstrumentProps): JSX.Element {
   ]) as List<OscillatorType>;
 
   return (
-    <div className="pv4">
-      <div className="relative dib h4 w-100 ml4">
-        {Range(2, 7).map(octave =>
-          keys.map(key => {
-            const isMinor = key.note.indexOf('b') !== -1;
-            const note = `${key.note}${octave}`;
-            return (
-              <PianoKey
-                key={note} //react key
-                note={note}
-                synth={synth}
-                minor={isMinor}
-                octave={octave}
-                index={(octave - 2) * 7 + key.idx}
+      <div className="pv4">
+        <div className="relative dib h4 w-100 ml4">
+          {Range(2, 7).map(octave =>
+              keys.map(key => {
+                const isMinor = key.note.indexOf('b') !== -1;
+                const note = `${key.note}${octave}`;
+                return (
+                    <PianoKey
+                        key={note} //react key
+                        note={note}
+                        synth={synth}
+                        minor={isMinor}
+                        octave={octave}
+                        index={(octave - 2) * 7 + key.idx}
+                    />
+                );
+              }),
+          )}
+        </div>
+        <div className={'pl4 pt4 flex'}>
+          {oscillators.map(o => (
+              <PianoType
+                  key={o}
+                  title={o}
+                  onClick={() => setOscillator(o)}
+                  active={synth?.oscillator.type === o}
               />
-            );
-          }),
-        )}
+          ))}
+        </div>
       </div>
-      <div className={'pl4 pt4 flex'}>
-        {oscillators.map(o => (
-          <PianoType
-            key={o}
-            title={o}
-            onClick={() => setOscillator(o)}
-            active={synth?.oscillator.type === o}
-          />
-        ))}
-      </div>
-    </div>
   );
 }
-
-export const PianoInstrument = new Instrument('Piano', Piano);
