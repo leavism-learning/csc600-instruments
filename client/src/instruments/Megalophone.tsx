@@ -8,7 +8,7 @@ const MegalophoneComponent: React.FC<InstrumentProps> = ({ synth, setSynth }) =>
 
     // Effect to load the player and audio once on component mount
     useEffect(() => {
-        const player = new Tone.Player("megalovania.mp3").toDestination();
+        const player = new Tone.Player("songs/megalovania.mp3").toDestination();
         // Can omit load if no argument is required
         player.autostart = false; // Audio should not autostart after loading
         playerRef.current = player;
