@@ -2,16 +2,14 @@ import React, { useState, useEffect } from 'react';
 import * as Tone from 'tone';
 import { Instrument, InstrumentProps } from '../Instruments';
 
-// Define DrumSample type
 type DrumSample = {
     name: string;
     midi: string; // A MIDI note like "C1", "D#1", etc.
     url: string;
 };
 
-// Define your drum samples with corresponding MIDI notes
 const drumSamples: DrumSample[] = [
-    { name: 'Kick' , midi: 'C1', url: 'samples/kick.wav' },
+    { name: 'Kick' , midi: 'C1', url: 'samples/kick-drum.wav' },
     { name: 'Snare', midi: 'C#1', url: 'samples/snare.wav' },
     { name: 'High-Hat', midi: 'D1', url: 'samples/high_hat.wav' },
     { name: 'Floor-Tom', midi: 'D#1', url: 'samples/floor-tom.wav' },
@@ -60,7 +58,7 @@ const Drumkit: React.FC<InstrumentProps> = ({ state, dispatch }) => {
             <button onClick={togglePlay}>{isPlaying ? 'Stop' : 'Start'}</button>
             {drumSamples.map((sample) => (
                 <button key={sample.midi} onClick={() => playSample(sample.midi)}>
-                    Play {sample.name}
+                    {sample.name}
                 </button>
             ))}
         </div>
