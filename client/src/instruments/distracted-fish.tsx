@@ -4,20 +4,21 @@ import { Instrument, InstrumentProps } from '../Instruments';
 
 // Define DrumSample type
 type DrumSample = {
+    name: string;
     midi: string; // A MIDI note like "C1", "D#1", etc.
     url: string;
 };
 
 // Define your drum samples with corresponding MIDI notes
 const drumSamples: DrumSample[] = [
-    { midi: 'C1', url: 'samples/kick.wav' },
-    { midi: 'C#1', url: 'samples/snare.wav' },
-    { midi: 'D1', url: 'samples/high_hat.wav' },
-    { midi: 'D#1', url: 'samples/floor-tom.wav' },
-    { midi: 'E1', url: 'samples/hi-tom.wav' },
-    { midi: 'E#1', url: 'samples/mid-tom.wav' },
-    { midi: 'F1', url: 'samples/ride.wav' },
-    { midi: 'F#1', url: 'samples/crash.wav' },
+    { name: 'Kick' , midi: 'C1', url: 'samples/kick.wav' },
+    { name: 'Snare', midi: 'C#1', url: 'samples/snare.wav' },
+    { name: 'High-Hat', midi: 'D1', url: 'samples/high_hat.wav' },
+    { name: 'Floor-Tom', midi: 'D#1', url: 'samples/floor-tom.wav' },
+    { name: 'Hi-Tom', midi: 'E1', url: 'samples/hi-tom.wav' },
+    { name: 'Mid-Tom', midi: 'E#2', url: 'samples/mid-tom.wav' },
+    { name: 'Ride', midi: 'F1', url: 'samples/ride.wav' },
+    { name: 'Crash', midi: 'F#1', url: 'samples/crash.wav' },
 
 ];
 
@@ -59,7 +60,7 @@ const Drumkit: React.FC<InstrumentProps> = ({ state, dispatch }) => {
             <button onClick={togglePlay}>{isPlaying ? 'Stop' : 'Start'}</button>
             {drumSamples.map((sample) => (
                 <button key={sample.midi} onClick={() => playSample(sample.midi)}>
-                    Play {sample.midi}
+                    Play {sample.name}
                 </button>
             ))}
         </div>
