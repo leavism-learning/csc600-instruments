@@ -4,32 +4,36 @@ import { List, Map } from 'immutable';
 // project dependencies
 // instruments
 import { PianoInstrument } from './instruments/Piano';
-import { GuitarInstrument } from './instruments/Guitar';
+import { GuitarInstrument } from './instruments/leavism';
 import { OcarinaInstrument } from './instruments/Ocarina';
 import { Megalophone } from './instruments/Megalophone';
-import {DrumkitInstrument} from "./instruments/distracted-fish";
+import { DrumkitInstrument } from './instruments/distracted-fish';
 // visualizers
 import { WaveformVisualizer } from './visualizers/Waveform';
-
-import { ShapeVisualizer } from './visualizers/Shapes';
 
 
 /** ------------------------------------------------------------------------ **
  * The entire application state is stored in AppState.
  ** ------------------------------------------------------------------------ */
-export type AppState = Map<string, any>;           // similar to { [id: string]: any }
+export type AppState = Map<string, any>; // similar to { [id: string]: any }
 
 /**
  * Start with the default piano instrument.
  * Add your instruments to this list.
  */
-const instruments = List([PianoInstrument, GuitarInstrument,DrumkitInstrument, OcarinaInstrument, Megalophone]);       // similar to Instrument[]
+const instruments = List([
+	PianoInstrument,
+	GuitarInstrument,
+	DrumkitInstrument,
+	OcarinaInstrument,
+	Megalophone,
+]); // similar to Instrument[]
 
 /**
  * Start with the default waveform visualizer.
  * Add your visualizers to this list.
  */
-const visualizers = List([WaveformVisualizer,ShapeVisualizer]);    // similar to Visualizer[]
+const visualizers = List([WaveformVisualizer]);    // similar to Visualizer[]
 
 
 /**
@@ -39,6 +43,6 @@ const visualizers = List([WaveformVisualizer,ShapeVisualizer]);    // similar to
  * 'visualizer': List<Visualizer>
  */
 export const defaultState: AppState = Map<string, any>({
-  'instruments': instruments,
-  'visualizers': visualizers,
+	instruments: instruments,
+	visualizers: visualizers,
 });
