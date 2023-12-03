@@ -1,4 +1,7 @@
+.DS_Store
+
 **/node_modules
 **/build
+
 server/app.db
 server/app.db
