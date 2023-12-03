@@ -1,6 +1,7 @@
 import * as Tone from 'tone';
 import { Range } from 'immutable';
 import { Instrument, InstrumentProps } from '../Instruments';
+import { useEffect } from 'react';
 
 interface GuitarStringProps {
 	string: number; // 0 - 5, where 0 is high E string
@@ -96,10 +97,43 @@ function fretToNote(string: number, fret: number): string {
  *
  * @returns {JSX.Element} - A JSX element representing the guitar fretboard with all strings and frets.
  */
-// TODO: Unused setsynth from instrumentProps. May need it later.
 function Guitar({ synth, setSynth }: InstrumentProps) {
 	const fretCount = 22;
 	const stringCount = 6;
+
+	const setOscillator = () => {
+		setSynth((oldSynth) => {
+			oldSynth.disconnect();
+
+			// Create a new synth
+			const newSynth = new Tone.Synth({
+				volume: 2,
+				detune: 0,
+				envelope: {
+					attack: 0.005,
+					decay: 0.1,
+					release: 1,
+					sustain: 0.3,
+				},
+				oscillator: {
+					type: 'sawtooth',
+				},
+			});
+
+			// Create and connect effects
+			const filter = new Tone.Filter(1500, 'lowpass');
+			const vibrato = new Tone.Vibrato(5, 0.2);
+			const distortion = new Tone.Distortion(0.8);
+			const reverb = new Tone.Reverb({ decay: 2, wet: 0.4 });
+
+			newSynth.chain(filter, vibrato, distortion, reverb, Tone.Destination);
+
+			return newSynth;
+		});
+	};
+
+	useEffect(setOscillator, [setSynth]);
+
 	return (
 		<div className='pv5'>
 			<div className='guitar'>
