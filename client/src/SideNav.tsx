@@ -1,7 +1,7 @@
 // 3rd party library imports
 import classNames from 'classnames';
 import { List } from 'immutable';
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import {
   RadioButton20,
@@ -155,10 +155,19 @@ function SongsNav({ state, dispatch }: SideNavProps): JSX.Element {
    *  |      ...        |
    *  |-----------------|
   */
+  const [displayArtist, setDisplayArtist] = useState(false);
+
+  const toggleDisplay = () => {
+    setDisplayArtist((prevDisplayArtist) => !prevDisplayArtist);
+  };
+
 
   const songs: List<any> = state.get('songs', List());
   return (
     <Section title="Playlist">
+      <button onClick={toggleDisplay}>
+        {displayArtist ? 'Show Song Title' : 'Show Artist Name'}
+      </button>
       {songs.map(song => (
         <div
           key={song.get('id')}
@@ -167,8 +176,17 @@ function SongsNav({ state, dispatch }: SideNavProps): JSX.Element {
             dispatch(new DispatchAction('PLAY_SONG', { id: song.get('id') }))
           }
         >
-          <Music20 className="mr1" />
-          {song.get('songTitle')}
+          {displayArtist ? (
+            <>
+              <Music20 className="mr1" />
+              {song.get('songArtist')}
+            </>
+          ) : (
+            <>
+              <Music20 className="mr1" />
+              {song.get('songTitle')}
+            </>
+          )}
         </div>
       ))}
     </Section>
