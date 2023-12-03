@@ -79,12 +79,12 @@ export class DB {
     const db = await this.getDB();
     // Here, we have a callback that expects two arguments (resolve and
     // reject), both of which are themselves callbacks.
-    return new Promise((resolve, reject) => {
-      db.all(query, args, (err, rows) => {
+    return new Promise<any[]>((resolve, reject) => {
+      db.all(query, args, (err: Error | null, rows: any[]) => {
         if (err) {
           reject(err);
         } else {
-          resolve(rows.map(r => camelcaseKeys(r)));
+          resolve(rows.map((r: any) => camelcaseKeys(r)));
         }
       });
     });
