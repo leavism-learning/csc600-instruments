@@ -4,13 +4,13 @@ import { List, Map } from 'immutable';
 // project dependencies
 // instruments
 import { PianoInstrument } from './instruments/Piano';
-import { GuitarInstrument } from './instruments/Guitar';
+import { GuitarInstrument } from './instruments/leavism';
 import { OcarinaInstrument } from './instruments/Ocarina';
 import { Megalophone } from './instruments/Megalophone';
 import { DrumkitInstrument } from './instruments/distracted-fish';
 // visualizers
 import { WaveformVisualizer } from './visualizers/Waveform';
-import { CircleVisualizer } from './visualizers/Circle';
+import { CircleVisualizer } from './visualizers/leavism';
 
 /** ------------------------------------------------------------------------ **
  * The entire application state is stored in AppState.
