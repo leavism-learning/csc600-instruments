@@ -101,17 +101,19 @@ function Guitar({ synth, setSynth }: InstrumentProps) {
 	const fretCount = 22;
 	const stringCount = 6;
 	return (
-		<div className='guitar'>
-			{Range(0, stringCount).map((stringNumber) => {
-				return (
-					<GuitarString
-						key={stringNumber}
-						string={stringNumber + 1}
-						fret={fretCount + 1}
-						synth={synth}
-					/>
-				);
-			})}
+		<div className='pv5'>
+			<div className='guitar'>
+				{Range(0, stringCount).map((stringNumber) => {
+					return (
+						<GuitarString
+							key={stringNumber}
+							string={stringNumber + 1}
+							fret={fretCount + 1}
+							synth={synth}
+						/>
+					);
+				})}
+			</div>
 		</div>
 	);
 }
