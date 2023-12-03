@@ -1,52 +1,71 @@
 import * as Tone from 'tone';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { Instrument, InstrumentProps } from '../Instruments';
 
-const MegalophoneComponent: React.FC<InstrumentProps> = ({ synth, setSynth }) => {
-    // A ref to store the player
-    const playerRef = useRef<Tone.Player>();
+const MegalophoneComponent: React.FC<InstrumentProps> = () => {
+    const squareSynth = new Tone.PolySynth().toDestination();
+    const sawSynth = new Tone.PolySynth().toDestination();
+    const triangleSynth = new Tone.PolySynth().toDestination();
+    const sineSynth = new Tone.PolySynth().toDestination();
 
-    // Effect to load the player and audio once on component mount
     useEffect(() => {
-        const player = new Tone.Player("songs/megalovania.mp3").toDestination();
-        // Can omit load if no argument is required
-        player.autostart = false; // Audio should not autostart after loading
-        playerRef.current = player;
+        squareSynth.set({ oscillator: { type: 'square' } });
+        sawSynth.set({ oscillator: { type: 'sawtooth' } });
+        triangleSynth.set({ oscillator: { type: 'triangle' } });
+        sineSynth.set({ oscillator: { type: 'sine' } });
+
+        // make the sawtooth synth louder
+        sawSynth.set({ volume: 5 });
+
+        // make the sawtooth synth harsher
+        sawSynth.set({ detune: 20 });
+
+        triangleSynth.set({ volume: 10 });
+
+        sineSynth.set({ detune: 10 });
     }, []);
 
-    // Function to play the audio file with a pitch shift
-    const playSound = (pitchShift: number) => {
-        if (playerRef.current) {
-            const player = playerRef.current;
-    
-            // Disconnect any existing connections
-            player.disconnect();
-    
-            // Create a PitchShift effect and connect it to the destination
-            const pitchShiftEffect = new Tone.PitchShift(pitchShift).toDestination();
-            player.connect(pitchShiftEffect);
-    
-            // Start or restart playback from the beginning
-            if (player.state === "started") {
-                player.stop(); // Stop the player if it's already playing
-            }
-            player.start();
-    
-            // Schedule the disconnection after the playback duration
-            Tone.Transport.scheduleOnce(time => {
-                pitchShiftEffect.dispose(); // Dispose the pitch shift effect to prevent memory leaks
-            }, `+${player.buffer.duration}`);
-        } else {
-            console.warn('Player not initialized');
-        }
+    const playSound = (note: string) => {
+        console.log("Playing Square Synth");
+        squareSynth.triggerAttackRelease(note, '8n');
+
+        console.log("Playing saw synth");
+        sawSynth.triggerAttackRelease(note, '8n');
+
+        console.log("Playing triangle synth");
+        triangleSynth.triggerAttackRelease(note, '8n');
+
+        console.log("Playing sine synth");
+        sineSynth.triggerAttackRelease(note, '8n');
     };
+
 
     // Buttons to play audio at different pitches
     return (
-        <div>
-            <button onClick={() => playSound(-12)}>Low Pitch (-1 Octave)</button>
-            <button onClick={() => playSound(0)}>Original Pitch</button>
-            <button onClick={() => playSound(12)}>High Pitch (+1 Octave)</button>
+        <div className="flex flex-wrap justify-center">
+            <button onClick={() => playSound('C4')}>C</button>
+            <button onClick={() => playSound('C#4')}>C#</button>
+            <button onClick={() => playSound('D4')}>D</button>
+            <button onClick={() => playSound('D#4')}>D#</button>
+            <button onClick={() => playSound('E4')}>E</button>
+            <button onClick={() => playSound('F4')}>F</button>
+            <button onClick={() => playSound('F#4')}>F#</button>
+            <button onClick={() => playSound('G4')}>G</button>
+            <button onClick={() => playSound('G#4')}>G#</button>
+            <button onClick={() => playSound('A4')}>A</button>
+            <button onClick={() => playSound('A#4')}>A#</button>
+            <button onClick={() => playSound('B4')}>B</button>
+            <button onClick={() => playSound('C5')}>C</button>
+            <button onClick={() => playSound('C#5')}>C#</button>
+            <button onClick={() => playSound('D5')}>D</button>
+            <button onClick={() => playSound('D#5')}>D#</button>
+            <button onClick={() => playSound('E5')}>E</button>
+            <button onClick={() => playSound('F5')}>F</button>
+            <button onClick={() => playSound('G5')}>G</button>
+            <button onClick={() => playSound('G#5')}>G#</button>
+            <button onClick={() => playSound('A5')}>A</button>
+            <button onClick={() => playSound('A#5')}>A#</button>
+            <button onClick={() => playSound('B5')}>B</button>
         </div>
     );
 };
