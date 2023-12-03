@@ -112,8 +112,8 @@ function Guitar({ synth, setSynth }: InstrumentProps) {
 				envelope: {
 					attack: 0.005,
 					decay: 0.1,
-					release: 1,
-					sustain: 0.3,
+					release: 0.25,
+					sustain: 0.5,
 				},
 				oscillator: {
 					type: 'sawtooth',
@@ -122,7 +122,7 @@ function Guitar({ synth, setSynth }: InstrumentProps) {
 
 			// Create and connect effects
 			const filter = new Tone.Filter(1500, 'lowpass');
-			const vibrato = new Tone.Vibrato(5, 0.2);
+			const vibrato = new Tone.Vibrato(4, 0.2);
 			const distortion = new Tone.Distortion(0.8);
 			const reverb = new Tone.Reverb({ decay: 2, wet: 0.4 });
 
