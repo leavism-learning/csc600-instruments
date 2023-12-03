@@ -152,14 +152,13 @@ const Drumkit: React.FC<InstrumentProps> = ({ state, dispatch }) => {
             drumSampler.triggerAttack(midiNote);
         }
     };
+    <button className="button-17" role="button">Button 17</button>
 
     // Render buttons for each drum sample
     return (
         <div className="drumkit-container">
-            <button onClick={togglePlay}>{isPlaying ? 'Stop' : 'Start'}</button>
-            <button onClick={clearSequence}>Clear</button> {/* Reset button */}
-            <DrumGrid drumSampler={drumSampler} sequence={sequence} toggleBeat={toggleBeat} currentBeat={currentBeat} />
-            <label htmlFor="bpm-slider">BPM: {bpm}</label>
+            <button className="button-" role="button" onClick={togglePlay}>{isPlaying ? 'Stop' : 'Start'}</button>
+            <button className="button-" role="button" onClick={clearSequence}>Clear</button> {/* Reset button */}
             <input
                 type="range"
                 min="20"
@@ -168,7 +167,8 @@ const Drumkit: React.FC<InstrumentProps> = ({ state, dispatch }) => {
                 onChange={handleBpmChange}
                 className="bpm-slider"
             />
-            <label htmlFor="bpm-slider">BPM: {bpm}</label>
+            <label htmlFor="bpm-slider">{bpm} bpm</label>
+            <DrumGrid drumSampler={drumSampler} sequence={sequence} toggleBeat={toggleBeat} currentBeat={currentBeat} />
         </div>
     );
 };
