@@ -167,11 +167,16 @@ body,
 .ocarina {
 	
 	position: relative;
-	width: 100px; 
-	height: 100px; 
-	transform: translate(100% , 150%);
+	height: 700px; 
+	/* transform: translate(100% , 150%); */
   }
   
+  .button-block{
+	width: 100px;
+	height: 100px;
+	transform: translate(150% , 250%);
+  }
+
   .ocarina-hole {
 	position: relative;
 	width: 100%;

@@ -1,75 +1,100 @@
 import * as Tone from 'tone';
+import React, { useState, useEffect } from 'react';
 import { Range } from 'immutable';
 import { Instrument, InstrumentProps } from '../Instruments';
 
-interface OcarinaHoleProps {
-  hole: number; // 0 - 4, where 0 is the lowest tone
-  synth: Tone.Synth;
-}
 
-function OcarinaHole({ hole: holeNumber, synth }: OcarinaHoleProps): JSX.Element {
-  const noteKey = getNoteButton(holeNumber);
-  return (
-    <div
-      className='ocarina-hole'
-      onMouseDown={() =>
-        synth.triggerAttack(`C${holeNumber + 3}`)
-      }
-      onMouseUp={() => synth.triggerRelease()}
-      tabIndex={0} // Ensure the element can receive keyboard events
-      style={{
-        top: 0,
-        width: '30px',
-        height: '30px',
-        borderRadius: '50%',
-        backgroundColor: '#3498db',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        margin: '15px',
-      }}
-    >
-      {noteKey}
-    </div>
-  );
-}
+type OcarinaSample = {
+  button: string;
+  midi: string; 
+  url: string;
+};
 
-function Ocarina({ synth }: InstrumentProps) {
-  const holeCount = 5;
+// Define your ocarina samples with corresponding MIDI notes
+const ocarinaSamples: OcarinaSample[] = [
+  { button: '↑', midi: 'D5', url: 'ocarinaSamples/D2.wav' },
+  { button: '↓', midi: 'F4', url: 'ocarinaSamples/F.wav' },
+  { button: '→', midi: 'A4', url: 'ocarinaSamples/A.wav' },
+  { button: '←', midi: 'B4', url: 'ocarinaSamples/B.wav' },
+  { button: 'A', midi: 'D3', url: 'ocarinaSamples/D.wav' },
+];
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    // Trigger attack when the key matches a hole
-    const holeNumber = getHoleNumber(event.key);
-    if (holeNumber !== null) {
-      synth.triggerAttack(`C${holeNumber + 3}`);
+
+
+const Ocarina: React.FC<InstrumentProps> = ({ synth }) => {
+  const [ocarinaSampler, setOcarinaSampler] = useState<Tone.Sampler | null>(null);
+
+  useEffect(() => {
+    const urls = ocarinaSamples.reduce((acc, sample) => ({ ...acc, [sample.midi]: sample.url }), {});
+    const sampler = new Tone.Sampler({ urls }).toDestination();
+
+    // sets sample 
+    Tone.loaded().then(() => {
+      setOcarinaSampler(sampler);
+    });
+
+    // discards sample
+    return () => {
+      sampler.dispose();
+    };
+  }, []);
+
+
+  // plays referenced from midi note
+  const playSample = (midiNote: string) => {
+    if (ocarinaSampler) {
+      ocarinaSampler.triggerAttack(midiNote);
     }
   };
 
-  const handleKeyUp = () => {
-    // Trigger release for all keys on keyup
-    synth.triggerRelease();
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    // Triggers sample on key press
+    const holeNumber = getHoleNumber(event.key);
+    if (holeNumber !== null) {
+      playSample(getMidiNote(holeNumber));
+    }
   };
 
   return (
-    <div
-      className='ocarina'
-      onKeyDown={handleKeyDown}
-      onKeyUp={handleKeyUp}
-      tabIndex={0} // Ensure the element can receive keyboard events
+    <div className='ocarina'
+    style={{
+      backgroundImage: 'url("Images/Background.png")',
+      backgroundSize: 'all',
+      backgroundPosition: 'center',
+      position: 'relative',
+    }}
     >
-      {Range(0, holeCount).map((holeNumber) => {
-        return (
-          <OcarinaHole
-            key={holeNumber}
-            hole={holeNumber}
-            synth={synth}
-          />
-        );
-      })}
+    <div className='button-block'
+    onKeyDown={handleKeyDown}
+    >
+      {ocarinaSamples.map((sample) => (
+        <div
+          key={sample.midi}
+          className={`ocarina-hole ${sample.midi}`}
+          onMouseDown={() => playSample(sample.midi)}
+          tabIndex={0}
+          style={{
+            top: 0,
+            width: '30px',
+            height: '30px',
+            borderRadius: '50%',
+            backgroundColor: '#3498db',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '15px',
+          }}
+        >
+          {sample.button}
+        </div>
+      ))}
+    </div>
     </div>
   );
-}
+};
 
+
+// converts between key presses and button values
 function getHoleNumber(noteKey: string): number | null {
   switch (noteKey) {
     case 'ArrowUp': return 0;
@@ -81,15 +106,18 @@ function getHoleNumber(noteKey: string): number | null {
   }
 }
 
-function getNoteButton(holeNumber: number): string {
+
+// converts button values to midi values
+function getMidiNote(holeNumber: number): string {
   switch (holeNumber) {
-    case 0: return '↑';
-    case 1: return '↓';
-    case 2: return '→';
-    case 3: return '←';
-    case 4: return 'A';
+    case 0: return 'D5';
+    case 1: return 'F4';
+    case 2: return 'A4';
+    case 3: return 'B4';
+    case 4: return 'D3';
     default: return '';
   }
 }
 
-export const OcarinaInstrument = new Instrument('Ocarina', Ocarina);
+
+export const OcarinaInstrument: Instrument = new Instrument('Ocarina', Ocarina);
