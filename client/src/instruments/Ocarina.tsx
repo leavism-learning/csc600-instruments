@@ -3,28 +3,21 @@ import { Range } from 'immutable';
 import { Instrument, InstrumentProps } from '../Instruments';
 
 interface OcarinaHoleProps {
-  hole: number; // 0 - 6, where 0 is the lowest tone
+  hole: number; // 0 - 4, where 0 is the lowest tone
   synth: Tone.Synth;
 }
 
-/**
- * Renders a single ocarina hole as an interactive element.
- * 
- * @param {OcarinaHoleProps} OcarinaHoleProps - The props for the OcarinaHole component.
- * @param {number} OcarinaHoleProps.hole - The number of the ocarina hole (0-6, where 0 is the lowest tone).
- * @param {Tone.AMSynth} OcarinaHoleProps.synth - The synthesizer instance used to play the notes.
- * @returns {JSX.Element} - A JSX element representing the ocarina hole.
- */
 function OcarinaHole({ hole: holeNumber, synth }: OcarinaHoleProps): JSX.Element {
+  const noteKey = getNoteButton(holeNumber);
   return (
     <div
       className='ocarina-hole'
       onMouseDown={() =>
-        synth.triggerAttack(`C${holeNumber + 1}`)
+        synth.triggerAttack(`C${holeNumber + 3}`)
       }
       onMouseUp={() => synth.triggerRelease()}
+      tabIndex={0} // Ensure the element can receive keyboard events
       style={{
-        // CSS
         top: 0,
         width: '30px',
         height: '30px',
@@ -36,22 +29,34 @@ function OcarinaHole({ hole: holeNumber, synth }: OcarinaHoleProps): JSX.Element
         margin: '15px',
       }}
     >
-      {holeNumber}
+      {noteKey}
     </div>
   );
 }
 
-/**
- * Represents the complete ocarina with all its holes.
- * 
- * @param {InstrumentProps} InstrumentProps - The props for the Ocarina component.
- * @param {Tone.AMSynth} InstrumentProps.synth - The synthesizer instance used to play the notes.
- * @returns {JSX.Element} - A JSX element representing the ocarina with all holes.
- */
 function Ocarina({ synth }: InstrumentProps) {
-  const holeCount = 7; 
+  const holeCount = 5;
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    // Trigger attack when the key matches a hole
+    const holeNumber = getHoleNumber(event.key);
+    if (holeNumber !== null) {
+      synth.triggerAttack(`C${holeNumber + 3}`);
+    }
+  };
+
+  const handleKeyUp = () => {
+    // Trigger release for all keys on keyup
+    synth.triggerRelease();
+  };
+
   return (
-    <div className='ocarina'>
+    <div
+      className='ocarina'
+      onKeyDown={handleKeyDown}
+      onKeyUp={handleKeyUp}
+      tabIndex={0} // Ensure the element can receive keyboard events
+    >
       {Range(0, holeCount).map((holeNumber) => {
         return (
           <OcarinaHole
@@ -63,6 +68,28 @@ function Ocarina({ synth }: InstrumentProps) {
       })}
     </div>
   );
+}
+
+function getHoleNumber(noteKey: string): number | null {
+  switch (noteKey) {
+    case 'ArrowUp': return 0;
+    case 'ArrowDown': return 1;
+    case 'ArrowLeft': return 2;
+    case 'ArrowRight': return 3;
+    case 'a': return 4;
+    default: return null;
+  }
+}
+
+function getNoteButton(holeNumber: number): string {
+  switch (holeNumber) {
+    case 0: return '↑';
+    case 1: return '↓';
+    case 2: return '→';
+    case 3: return '←';
+    case 4: return 'A';
+    default: return '';
+  }
 }
 
 export const OcarinaInstrument = new Instrument('Ocarina', Ocarina);
