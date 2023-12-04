@@ -78,7 +78,6 @@ const Ocarina: React.FC<InstrumentProps> = ({ synth }) => {
             width: '30px',
             height: '30px',
             borderRadius: '50%',
-            backgroundColor: '#3498db',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',

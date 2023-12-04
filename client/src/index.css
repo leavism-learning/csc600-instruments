@@ -174,7 +174,7 @@ body,
   .button-block{
 	width: 100px;
 	height: 100px;
-	transform: translate(150% , 250%);
+	transform: translate(150% , 5em);
   }
 
   .ocarina-hole {
@@ -188,9 +188,9 @@ body,
 	
   }
   
-  .ocarina-hole:nth-child(1) { transform: translate(0 , 140px);}
-  .ocarina-hole:nth-child(2) { transform: translate(0 , 180px);}
-  .ocarina-hole:nth-child(3) { transform: translate(60px , 89px); font-size: 25px; font-weight: bold;}
-  .ocarina-hole:nth-child(4) { transform: translate(-60px , 45px); font-size: 25px; font-weight: bold;}
-  .ocarina-hole:nth-child(5) { transform: translate(0 , 0);}
+  .ocarina-hole:nth-child(1) { transform: translate(0 , 140px); background-color: rgb(248, 255, 47)}
+  .ocarina-hole:nth-child(2) { transform: translate(0 , 180px); background-color: rgb(248, 255, 47)}
+  .ocarina-hole:nth-child(3) { transform: translate(60px , 89px); font-size: 25px; font-weight: bold; background-color: rgb(248, 255, 47)}
+  .ocarina-hole:nth-child(4) { transform: translate(-60px , 45px); font-size: 25px; font-weight: bold; background-color: rgb(248, 255, 47)}
+  .ocarina-hole:nth-child(5) { transform: translate(0 , 0); background-color: #3498db}
   
