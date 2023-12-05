@@ -24,8 +24,8 @@ function GuitarString({
 }: GuitarStringProps): JSX.Element {
 	const fretsWithNoNumbers = [3, 5, 7, 9, 12, 15, 17, 19, 21, 24];
 	const calculateFretWidth = (fretNumber: number) => {
-		const maxWidth = 70;
-		const minWidth = 30;
+		const maxWidth = 100;
+		const minWidth = 50;
 		const widthDecrement = (maxWidth - minWidth) / fretCount;
 		return maxWidth - widthDecrement * fretNumber;
 	};
