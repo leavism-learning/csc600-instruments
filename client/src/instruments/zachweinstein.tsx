@@ -66,33 +66,40 @@ function Megalophone({ synth, setSynth }: InstrumentProps){
         sineSynth.triggerAttackRelease(note, '8n');
     };
 
-
+    // Style for the buttons
+    const buttonStyle = {
+        width: '50px',
+        height: '50px',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        backgroundImage: 'url("/peter.jpeg")'
+    };
     // Buttons to play audio at different pitches
     return (
         <div className="flex flex-wrap justify-center">
-            <button onClick={() => playSound('C4')}>C</button>
-            <button onClick={() => playSound('C#4')}>C#</button>
-            <button onClick={() => playSound('D4')}>D</button>
-            <button onClick={() => playSound('D#4')}>D#</button>
-            <button onClick={() => playSound('E4')}>E</button>
-            <button onClick={() => playSound('F4')}>F</button>
-            <button onClick={() => playSound('F#4')}>F#</button>
-            <button onClick={() => playSound('G4')}>G</button>
-            <button onClick={() => playSound('G#4')}>G#</button>
-            <button onClick={() => playSound('A4')}>A</button>
-            <button onClick={() => playSound('A#4')}>A#</button>
-            <button onClick={() => playSound('B4')}>B</button>
-            <button onClick={() => playSound('C5')}>C</button>
-            <button onClick={() => playSound('C#5')}>C#</button>
-            <button onClick={() => playSound('D5')}>D</button>
-            <button onClick={() => playSound('D#5')}>D#</button>
-            <button onClick={() => playSound('E5')}>E</button>
-            <button onClick={() => playSound('F5')}>F</button>
-            <button onClick={() => playSound('G5')}>G</button>
-            <button onClick={() => playSound('G#5')}>G#</button>
-            <button onClick={() => playSound('A5')}>A</button>
-            <button onClick={() => playSound('A#5')}>A#</button>
-            <button onClick={() => playSound('B5')}>B</button>
+            <button style={buttonStyle} onClick={() => playSound('C4')}>C</button>
+            <button style={buttonStyle} onClick={() => playSound('C#4')}>C#</button>
+            <button style={buttonStyle} onClick={() => playSound('D4')}>D</button>
+            <button style={buttonStyle} onClick={() => playSound('E4')}>E</button>
+            <button style={buttonStyle} onClick={() => playSound('F4')}>F</button>
+            <button style={buttonStyle} onClick={() => playSound('F#4')}>F#</button>
+            <button style={buttonStyle} onClick={() => playSound('G4')}>G</button>
+            <button style={buttonStyle} onClick={() => playSound('G#4')}>G#</button>
+            <button style={buttonStyle} onClick={() => playSound('A4')}>A</button>
+            <button style={buttonStyle} onClick={() => playSound('A#4')}>A#</button>
+            <button style={buttonStyle} onClick={() => playSound('B4')}>B</button>
+            <button style={buttonStyle} onClick={() => playSound('C5')}>C</button>
+            <button style={buttonStyle} onClick={() => playSound('C#5')}>C#</button>
+            <button style={buttonStyle} onClick={() => playSound('D5')}>D</button>
+            <button style={buttonStyle} onClick={() => playSound('D#5')}>D#</button>
+            <button style={buttonStyle} onClick={() => playSound('E5')}>E</button>
+            <button style={buttonStyle} onClick={() => playSound('F5')}>F</button>
+            <button style={buttonStyle} onClick={() => playSound('G5')}>G</button>
+            <button style={buttonStyle} onClick={() => playSound('G#5')}>G#</button>
+            <button style={buttonStyle} onClick={() => playSound('A5')}>A</button>
+            <button style={buttonStyle} onClick={() => playSound('A#5')}>A#</button>
+            <button style={buttonStyle} onClick={() => playSound('B5')}>B</button>
         </div>
     );
 };
