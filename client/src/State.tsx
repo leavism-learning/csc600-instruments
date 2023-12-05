@@ -12,6 +12,7 @@ import { DrumkitInstrument } from './instruments/distracted-fish';
 import { WaveformVisualizer } from './visualizers/Waveform';
 import { CircleVisualizer } from './visualizers/leavism';
 import { ShapeVisualizer } from './visualizers/Shapes';
+import { SpiralVisualizer} from "./visualizers/distracted-fish";
 
 /** ------------------------------------------------------------------------ **
  * The entire application state is stored in AppState.
@@ -38,6 +39,7 @@ const visualizers = List([
 	WaveformVisualizer,
 	CircleVisualizer,
 	ShapeVisualizer,
+	SpiralVisualizer,
 ]); // similar to Visualizer[]
 
 /**

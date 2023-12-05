@@ -146,14 +146,6 @@ const Drumkit: React.FC<InstrumentProps> = ({ state, dispatch }) => {
         });
     };
 
-    // Function to play a specific drum sample
-    const playSample = (midiNote: string) => {
-        if (drumSampler) {
-            drumSampler.triggerAttack(midiNote);
-        }
-    };
-    <button className="button-17" role="button">Button 17</button>
-
     // Render buttons for each drum sample
     return (
         <div className="drumkit-container">
