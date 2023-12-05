@@ -13,6 +13,7 @@ import { WaveformVisualizer } from './visualizers/Waveform';
 import { CircleVisualizer } from './visualizers/leavism';
 import { ShapeVisualizer } from './visualizers/Shapes';
 import { TubeVisualizer } from './visualizers/leavism-tube';
+import { SpiralVisualizer} from "./visualizers/distracted-fish";
 
 /** ------------------------------------------------------------------------ **
  * The entire application state is stored in AppState.
@@ -39,7 +40,6 @@ const visualizers = List([
 	WaveformVisualizer,
 	CircleVisualizer,
 	ShapeVisualizer,
-	TubeVisualizer,
 ]); // similar to Visualizer[]
 
 /**
