@@ -2,7 +2,7 @@ import * as Tone from 'tone';
 import React, { useEffect } from 'react';
 import { Instrument, InstrumentProps } from '../Instruments';
 
-const MegalophoneComponent: React.FC<InstrumentProps> = () => {
+function Megalophone({ synth, setSynth }: InstrumentProps){
     const squareSynth = new Tone.PolySynth().toDestination();
     const sawSynth = new Tone.PolySynth().toDestination();
     const triangleSynth = new Tone.PolySynth().toDestination();
@@ -24,6 +24,33 @@ const MegalophoneComponent: React.FC<InstrumentProps> = () => {
 
         sineSynth.set({ detune: 10 });
     }, []);
+
+    const setOscillator = () => {
+		setSynth((oldSynth) => {
+			oldSynth.disconnect();
+
+            const newSynth = new Tone.Synth({
+				volume: 2,
+				detune: 0,
+				envelope: {
+					attack: 0.005,
+					decay: 0.1,
+					release: 0.25,
+					sustain: 0.5,
+				},
+				oscillator: {
+					type: 'sawtooth',
+				},
+			});
+
+           
+
+
+			return newSynth.chain(triangleSynth, squareSynth, sineSynth, sawSynth, Tone.Destination);
+		});
+	};
+
+    
 
     const playSound = (note: string) => {
         console.log("Playing Square Synth");
@@ -70,4 +97,6 @@ const MegalophoneComponent: React.FC<InstrumentProps> = () => {
     );
 };
 
-export const Megalophone = new Instrument('Megalophone', MegalophoneComponent);
+
+
+export const MegalophoneInstrument = new Instrument('Megalophone', Megalophone);
