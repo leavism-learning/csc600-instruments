@@ -75,31 +75,31 @@ function Megalophone({ synth, setSynth }: InstrumentProps){
         backgroundPosition: 'center',
         backgroundImage: 'url("/peter.jpeg")'
     };
-    // Buttons to play audio at different pitches
+    const notes = ['C4', 'C#4', 'D4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4', 'C5', 'C#5', 'D5', 'D#5', 'E5', 'F5', 'G5', 'G#5', 'A5', 'A#5', 'B5'];
+    const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
+
+    // Function to find the color in the rainbow for the button
+    const noteColor = (index: number) => colors[index % colors.length];
+
     return (
         <div className="flex flex-wrap justify-center">
-            <button style={buttonStyle} onClick={() => playSound('C4')}>C</button>
-            <button style={buttonStyle} onClick={() => playSound('C#4')}>C#</button>
-            <button style={buttonStyle} onClick={() => playSound('D4')}>D</button>
-            <button style={buttonStyle} onClick={() => playSound('E4')}>E</button>
-            <button style={buttonStyle} onClick={() => playSound('F4')}>F</button>
-            <button style={buttonStyle} onClick={() => playSound('F#4')}>F#</button>
-            <button style={buttonStyle} onClick={() => playSound('G4')}>G</button>
-            <button style={buttonStyle} onClick={() => playSound('G#4')}>G#</button>
-            <button style={buttonStyle} onClick={() => playSound('A4')}>A</button>
-            <button style={buttonStyle} onClick={() => playSound('A#4')}>A#</button>
-            <button style={buttonStyle} onClick={() => playSound('B4')}>B</button>
-            <button style={buttonStyle} onClick={() => playSound('C5')}>C</button>
-            <button style={buttonStyle} onClick={() => playSound('C#5')}>C#</button>
-            <button style={buttonStyle} onClick={() => playSound('D5')}>D</button>
-            <button style={buttonStyle} onClick={() => playSound('D#5')}>D#</button>
-            <button style={buttonStyle} onClick={() => playSound('E5')}>E</button>
-            <button style={buttonStyle} onClick={() => playSound('F5')}>F</button>
-            <button style={buttonStyle} onClick={() => playSound('G5')}>G</button>
-            <button style={buttonStyle} onClick={() => playSound('G#5')}>G#</button>
-            <button style={buttonStyle} onClick={() => playSound('A5')}>A</button>
-            <button style={buttonStyle} onClick={() => playSound('A#5')}>A#</button>
-            <button style={buttonStyle} onClick={() => playSound('B5')}>B</button>
+            {notes.map((note, index) => (
+                <button
+                    key={note}
+                    style={{ 
+                        width: '50px',
+                        height: '50px',
+                        backgroundColor: noteColor(index),
+                        color: 'white', // Ensure text is visible on the buttons, you can use black if it's better
+                        margin: '5px', // Add some spacing between buttons
+                        border: 'none', // Remove default button border
+                        borderRadius: '5px', // Optional: round button corners
+                    }}
+                    onClick={() => playSound(note)}
+                >
+                    {note}
+                </button>
+            ))}
         </div>
     );
 };
